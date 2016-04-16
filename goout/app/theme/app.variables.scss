@@ -1,0 +1,82 @@
+// http://ionicframework.com/docs/v2/theming/
+
+// Ionic Shared Functions
+// --------------------------------------------------
+// Makes Ionic Sass functions available to your App
+
+@import 'globals.core';
+
+// App Shared Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass variables found in Ionic's source scss files. Setting
+// variables before Ionic's Sass will use these variables rather than
+// Ionic's default Sass variable values. App Shared Sass imports belong
+// in the app.core.scss file and not this file. Sass variables specific
+// to the mode belong in either the app.ios.scss or app.md.scss files.
+
+
+// App Shared Color Variables
+// --------------------------------------------------
+// It's highly recommended to change the default colors
+// to match your app's branding. Ionic uses a Sass map of
+// colors so you can add, rename and remove colors as needed.
+// The "primary" color is the only required color in the map.
+// Both iOS and MD colors can be further customized if colors
+// are different per mode.
+
+$colors: (
+  primary:    #542889,
+  secondary:  #32db64,
+  danger:     #f53d3d,
+  light:      #f4f4f4,
+  dark:       #222,
+  favorite:   #69BB7B
+);
+
+
+.ion-ios-artswave {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 100%;
+  background-image: url('../../img/artsPassTabIcon_active.png');
+  background-size:contain;
+}
+.ion-ios-artswave-outline {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 100%;
+  background-image: url('../../img/artsPassTabIcon_inactive.png');
+  background-size:contain;
+}
+
+.ion-ios-discover {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 100%;
+  background-image: url('../../img/discoverTabIcon_active.png');
+  background-size:contain;
+}
+.ion-ios-discover-outline {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 100%;
+  background-image: url('../../img/discoverTabIcon_inactive.png');
+  background-size:contain;
+}
+
+.ion-ios-profile {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 100%;
+  background-image: url('../../img/profileTabIcon_active.png');
+  background-size:contain;
+}
+.ion-ios-profile-outline {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 100%;
+  background-image: url('../../img/profileTabIcon_inactive.png');
+  background-size:contain;
+}
+

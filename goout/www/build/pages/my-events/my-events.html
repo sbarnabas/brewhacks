@@ -1,0 +1,28 @@
+<ion-navbar *navbar>
+
+    <ion-title>Discover</ion-title>
+</ion-navbar>
+
+<ion-content>
+    <ion-list>
+
+        <ion-card *ngFor="#item of items" (click)="itemTapped($event, item)">
+            <img src="{{item.image}}"/>
+            <ion-card-content>
+                <ion-card-title>
+
+                 <p [innerHTML] ="item.title"></p>
+                </ion-card-title>
+
+                <div [innerHTML]="item.note">
+                </div>
+
+
+            </ion-card-content>
+
+
+        </ion-card>
+
+    </ion-list>
+
+</ion-content>

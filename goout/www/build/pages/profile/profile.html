@@ -1,0 +1,40 @@
+<ion-navbar *navbar>
+  <ion-title>Profile</ion-title>
+</ion-navbar>
+<ion-content>
+<ion-card>
+
+  <ion-item>
+    <ion-avatar item-left>
+      <img src="img/claude.png">
+    </ion-avatar>
+    <h1>{{userProfile.userName}}</h1>
+  </ion-item>
+
+  <ion-card-content>
+  	<h2>{{userProfile.experienceCount}} recorded experiences</h2>
+  	<h2>Favorite Experience: {{userProfile.favoriteThing}}</h2>
+  </ion-card-content>
+</ion-card>
+
+<ion-card>
+  <ion-card-content>
+  	<h2><a><ion-icon name="calendar" item-left></ion-icon>Events Archive</a></h2>
+  	<h2><a><ion-icon name="done-all" item-left></ion-icon>Interests</a></h2>
+  	<h2><a><ion-icon name="card" item-left></ion-icon>Donate</a></h2>
+  	<h2><a><ion-icon name="log-out" item-left></ion-icon>Facebook Sign Out</a></h2>
+  	<h2><a (click)=goToAbout()><ion-icon name="bulb" item-left></ion-icon>About Arts360</a></h2>
+    <h2><a><ion-icon name="help-circle" item-left></ion-icon>Help / Contact Us</a></h2>
+  </ion-card-content>
+</ion-card>
+
+<ion-card>
+	<ion-item>
+		<h2><ion-icon name="link" item-left></ion-icon>Connected Programs</h2>
+	</ion-item>
+	<ion-card-content>
+		<a href="#"><h2>{{connectedPrograms[0].programName}}</h2></a>
+		<a href="#"><h2>{{connectedPrograms[1].programName}}</h2></a>
+	</ion-card-content>
+</ion-card>
+</ion-content>

@@ -1,0 +1,69 @@
+<ion-navbar *navbar>
+  <ion-title>I'm interested in...</ion-title>
+</ion-navbar>
+
+<ion-content>
+  <ion-row>
+    <ion-col width-33 style="color: #{{interests[0].colorValue}}" align="center">
+      <img (click)="checkbox0 = !checkbox0" src="{{interests[0].imageUri}}"/>
+      <ion-label>{{interests[0].name}}
+        <ion-checkbox [(ngModel)]="checkbox0"></ion-checkbox>
+      </ion-label>
+    </ion-col>
+    <ion-col width-33 style="color: #{{interests[1].colorValue}}" align="center">
+      <img (click)="checkbox1 = !checkbox1" src="{{interests[1].imageUri}}"/>
+      <ion-label>{{interests[1].name}}
+        <ion-checkbox [(ngModel)]="checkbox1"></ion-checkbox>
+      </ion-label>
+    </ion-col>
+    <ion-col width-33 style="color: #{{interests[2].colorValue}}" align="center">
+      <img (click)="checkbox2 = !checkbox2" src="{{interests[2].imageUri}}"/>
+      <ion-label>{{interests[2].name}}
+        <ion-checkbox [(ngModel)]="checkbox2"></ion-checkbox>
+      </ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col width-33 style="color: #{{interests[3].colorValue}}" align="center">
+      <img (click)="checkbox3 = !checkbox3" src="{{interests[3].imageUri}}"/>
+      <ion-label>{{interests[3].name}}
+        <ion-checkbox [(ngModel)]="checkbox3"></ion-checkbox>
+      </ion-label>
+    </ion-col>
+    <ion-col width-33 style="color: #{{interests[4].colorValue}}" align="center">
+      <img (click)="checkbox4 = !checkbox4" src="{{interests[4].imageUri}}"/>
+      <ion-label>{{interests[4].name}}
+        <ion-checkbox [(ngModel)]="checkbox4"></ion-checkbox>
+      </ion-label>
+    </ion-col>
+    <ion-col width-33 style="color: #{{interests[5].colorValue}}" align="center">
+      <img (click)="checkbox5 = !checkbox5" src="{{interests[5].imageUri}}"/>
+      <ion-label>{{interests[5].name}}
+        <ion-checkbox [(ngModel)]="checkbox5"></ion-checkbox>
+      </ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col width-33 style="color: #{{interests[6].colorValue}}" align="center">
+      <img (click)="checkbox6 = !checkbox6"src="{{interests[6].imageUri}}"/>
+      <ion-label>{{interests[6].name}}
+        <ion-checkbox [(ngModel)]="checkbox6"></ion-checkbox>
+      </ion-label>
+    </ion-col>
+    <ion-col width-33 style="color: #{{interests[7].colorValue}}" align="center">
+      <img (click)="checkbox7 = !checkbox7" src="{{interests[7].imageUri}}"/>
+      <ion-label>{{interests[7].name}}
+        <ion-checkbox [(ngModel)]="checkbox7"></ion-checkbox>
+      </ion-label>
+    </ion-col>
+    <ion-col width-33 style="color: #{{interests[8].colorValue}}" align="center">
+      <img (click)="checkbox8 = !checkbox8" src="{{interests[8].imageUri}}"/>
+      <ion-label>{{interests[8].name}}
+        <ion-checkbox [(ngModel)]="checkbox8"></ion-checkbox>
+      </ion-label>
+    </ion-col>
+  </ion-row>
+  <p align="center">
+    <button primary (click)="saveInterests()">Save Interests</button>
+  </p>
+</ion-content>

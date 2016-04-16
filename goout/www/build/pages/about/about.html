@@ -1,0 +1,18 @@
+<ion-navbar *navbar>
+  <ion-title>About Arts360</ion-title>
+</ion-navbar>
+<ion-content>
+<ion-list no-lines>
+  <ion-item *ngFor="#contributor of contributors">
+    <ion-avatar item-left>
+      <img src="img/{{contributor.avatarImage}}">
+    </ion-avatar>
+    <h2>{{contributor.name}} - {{contributor.role}}</h2>
+    <p>{{contributor.quote}}</p>
+  </ion-item>
+</ion-list>
+<p>Arts360 was a collaborative creative experience from the #ArtsWaveTech 2016 Hackathon. 
+Over the course of a weekend, a group of strangers came together to build this application to help further the arts in Cincinnati.
+</p>
+<p>Version 0.1 - Alpha</p>
+</ion-content>

@@ -1,0 +1,58 @@
+<ion-navbar *navbar>
+  <ion-title>Event Details</ion-title>
+</ion-navbar>
+
+<ion-content>
+
+  <ion-card>
+    <!--<ion-card-header>
+      {{selectedEvent.eventName}}
+    </ion-card-header>-->
+
+    <img src="{{selectedEvent.eventImage}}" /><br />
+
+    <ion-item-divider light>Event Details</ion-item-divider>
+
+    <p [innerHTML]="selectedEvent.eventDescript" style="padding-left: 5px;"></p>
+    <p style="white-space:normal; padding-left: 10px">Venue: {{selectedEvent.eventVenueName}}</p>
+    <p style="white-space:normal; padding-left: 10px">{{selectedEvent.eventTime}} {{selectedEvent.eventDate}}</p><br />
+
+    <ion-item>
+      <button clear item-left onclick="local.href='{{selectedEvent.eventLink}}'">
+        Event Link
+      </button>
+      <button clear item-right onclick="local.href='{{selectedEvent.eventTicketLink}}'">
+        Buy Tickets
+      </button>
+    </ion-item>
+
+    <ion-item-divider light>Event Offers</ion-item-divider>
+
+    <ion-item>
+      <ion-thumbnail item-left>
+        <img src="img/taste.jpg">
+      </ion-thumbnail>
+      <h2>Taste of Belgium</h2>
+      <p style="white-space:normal">Earn your free waffle by attending!</p>
+      <button primary outline item-right>Redeem</button>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="share-alt" item-left large ></ion-icon>
+        <h2>Share this event!</h2>
+        <p>We award 100 points for each social media share</p>
+    </ion-item>
+
+    <ion-item>
+      <p>Friends who also saved this event...</p>
+      <ion-row>
+        <img src="img/Friends.png" style="height: 100px !important;">
+
+      </ion-row>
+    </ion-item>
+
+
+
+
+</ion-card>
+</ion-content>
