@@ -5,10 +5,7 @@
 /www/build
 /plugins
 /platforms
-goout/node_modules/
-goout/www/build/
-goout/platforms/
-goout/plugins/
 *.swp
+/.idea
 .DS_Store
 Thumbs.db

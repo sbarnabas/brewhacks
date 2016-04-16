@@ -1,14 +1,6 @@
 # Specifies files to intentionally ignore when using Git
 # http://git-scm.com/docs/gitignore
 
-/node_modules
-/www/build
-/plugins
-/platforms
-goout/node_modules/
-goout/www/build/
-goout/platforms/
-goout/plugins/
 *.swp
 /.idea
 .DS_Store
