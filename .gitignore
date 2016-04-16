@@ -10,6 +10,7 @@ goout/www/build/
 goout/platforms/
 goout/plugins/
 *.swp
+/.idea
 .DS_Store
 Thumbs.db
 *.xml
