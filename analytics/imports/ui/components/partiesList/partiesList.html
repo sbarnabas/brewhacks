@@ -96,9 +96,6 @@
                    var val=chart.series[genderidx].data[activityidx].y;
                     chart.series[genderidx].data[activityidx].update(val+1);
                 }
-
-                console.log(chart.series[genderidx]);
-
             }
         }
 
@@ -139,6 +136,10 @@
     function updateMap(newData) {
         var mapData = heatmap.data;
 
+        while (mapData.length > 200) {
+            mapData.shift();
+        }
+
         mapData.push(newData);
 
         heatmap.set("data", mapData);
@@ -155,8 +156,6 @@
         for (i = 0; i < activeData.length; i++) {
             mapData.push(activeData[i]['geocode']);
         }
-
-        console.log(mapData);
 
         heatmap.set("data", mapData);
         heatmap.setMap(map);
