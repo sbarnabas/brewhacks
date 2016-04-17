@@ -1,4 +1,4 @@
-import {Page, NavController, NavParams} from "ionic-angular";
+import {Page, NavController, NavParams, IonicApp} from "ionic-angular";
 import {ItemDetailsPage} from "../item-details/item-details";
 import {Http} from "angular2/http";
 import "rxjs/add/operator/map";
@@ -10,12 +10,13 @@ import {NgZone} from "angular2/core";
 
 export class DiscoverPage {
     static get parameters() {
-        return [[NavController], [NavParams], [Http]];
+        return [[NavController], [NavParams], [Http], [IonicApp]];
     }
 
-    constructor(nav, navParams, http) {
+    constructor(nav, navParams, http, app) {
         this.nav = nav;
         this.http = http;
+        this._app = app;
         this.zone = new NgZone({enableLongStackTrace: false});
         // If we navigated to this page, we will have an item available as a nav param
 
@@ -42,12 +43,20 @@ export class DiscoverPage {
                                         img: d.photos[0].getUrl({maxWidth: 400}),
                                         rating: d.rating,
                                         address: d.vicinity,
-                                        timeleft: Math.floor(Math.random()*60)+1
+                                        timeleft: Math.floor(Math.random()*60)+1,
+                                        swiper:null
                                     })
                                 })
                             }
 
                         }
+
+                        setTimeout(()=>{
+                            for (var idx in this.items) {
+                                this.items[idx].swiper = this._app.getComponent('my-slides-'+this.items[idx].id);
+                                this.items[idx].swiper.slider.lockSwipes();
+                            }
+                        }, 100);
 
                     } catch (ex) {
                         console.log(ex);
@@ -58,6 +67,12 @@ export class DiscoverPage {
         });
 
     }
+
+    // ngAfterViewInit() {
+    //     var swiper = this._app.getComponent('my-slides-'+this.items[0].id);
+    //     console.log(swiper);
+    //     swiper.lockSwipes();
+    // }
 
     itemRemove(event, item, discard) {
         var idx = this.items.indexOf(item);
@@ -78,9 +93,13 @@ export class DiscoverPage {
     }
 
     itemTapped(event, item) {
-        this.nav.push(ItemDetailsPage, {
-            event: item
-        });
+        console.log("item got tapped");
+        console.log(item);
+        item.swiper.slider.unlockSwipes();
+        item.swiper.slider.slideNext(false);
+        // this.nav.push(ItemDetailsPage, {
+        //     event: item
+        // });
 
     }
 

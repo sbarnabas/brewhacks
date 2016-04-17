@@ -6,33 +6,56 @@
         <ion-card *ngFor="#item of items" class="buddy">
 
             <img src="{{item.img}}">
-            <div>
-            <ion-card-header>{{item.name}}</ion-card-header>
-                <ion-item>
-                    <ion-icon name="time" item-right></ion-icon> <div item-right>{{item.timeleft}}m left</div>
-                    <div item-left>{{item.offer}}</div>
-                </ion-item>
 
-                <ion-item>
-                <ion-icon name="pin" item-left></ion-icon>  <div item-left>{{item.address}} </div> <div item-right>{{item.rating}}/5</div>
-            </ion-item>
+            <ion-slides class="swiper-container" pager="false" id="my-slides-{{item.id}}">
+                <ion-slide>
+                    <div>
+                        <ion-card-header>{{item.name}}</ion-card-header>
+                        <ion-item>
+                            <ion-icon name="time" item-right></ion-icon> <div item-right>{{item.timeleft}}m left</div>
+                            <div item-left>{{item.offer}}</div>
+                        </ion-item>
 
-            <ion-item>
-                <span item-left>18 min</span>
-                <span item-left>(2.6 mi)</span>
+                        <ion-item>
+                            <ion-icon name="pin" item-left></ion-icon>  <div item-left>{{item.address}} </div> <div item-right>{{item.rating}}/5</div>
+                        </ion-item>
 
-            </ion-item>
-            <ion-item>
-                <div id="wrapper" style="text-align: center">
-                    <div style="display: inline-block;">
-                        <button primary large>
-                            Go
-                        </button>
+                        <ion-item>
+                            <span item-left>18 min</span>
+                            <span item-left>(2.6 mi)</span>
+
+                        </ion-item>
+                        <ion-item >
+                            <div id="wrapper" style="text-align: center">
+                                <div style="display: inline-block;">
+                                    <button primary large (click)="itemTapped($event, item)">
+                                        Go
+                                    </button>
+                                </div>
+                            </div>
+
+                        </ion-item>
                     </div>
-                </div>
+                </ion-slide>
 
-            </ion-item>
-            </div>
+                <ion-slide>
+                    <p style="text-align: center">
+                        <button>Google Maps</button>
+                    </p>
+                    <p style="text-align: center">
+                        <button item-center>Uber</button>
+                    </p>
+                    <p style="text-align: center">
+                        <button>Share</button>
+                    </p>
+                </ion-slide>
+                <ion-slide>
+                    <h2>Slide 3</h2>
+                </ion-slide>
+            </ion-slides>
+
+
+
         </ion-card>
         </div>
 
