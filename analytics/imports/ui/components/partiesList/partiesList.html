@@ -43,16 +43,11 @@
                     {{ item }}
                 </md-checkbox>
             </div>
+            <md-button>Export to Excel</md-button>
         </md-content>
     </md-sidenav>
 
     <md-content flex-gt-sm="65" flex-sm>
-        <div id="floating-panel">
-            <button onclick="updateMap()">Update Data</button>
-            <button onclick="changeGradient()">Change gradient</button>
-            <button onclick="changeRadius()">Change radius</button>
-            <button onclick="toggleHeatmap()">Toggle Heatmap</button>
-        </div>
 
         <div id="map" style="width:100%; height: 500px;"></div>
 
@@ -76,19 +71,33 @@
     var params = {
         startDate: new Date(), endDate: new Date(), gender: "All", minAge: 21, maxAge: 50, activity: "Friends"
     };
+    var chart;
 
     function datareceived(results, status) {
+        var chart = $("#hc").highcharts();
         if (status == google.maps.places.PlacesServiceStatus.OK) {
             for (x in results) {
 
                 var newData = {};
                 newData['geocode'] = results[x].geometry.location;
-                newData['gender'] = genders[Math.floor(Math.random()*2)];
+                var genderidx = Math.floor(Math.random() * 2);
+                newData['gender'] = genders[genderidx];
                 newData['age'] = Math.floor(Math.random() * 40) + 21;
                 newData['datetime'] = new Date();
-                newData['activity'] = activities[Math.floor(Math.random()*4)];
+                var activityidx = Math.floor(Math.random() * 4);
+                newData['activity'] = activities[activityidx];
                 data.push(newData);
                 updateMap(newData['geocode']);
+                if (chart.series[genderidx].data.length <= activityidx) {
+                    chart.series[genderidx].addPoint(1)
+
+                }
+                else{
+                   var val=chart.series[genderidx].data[activityidx].y;
+                    chart.series[genderidx].data[activityidx].update(val+1);
+                }
+
+                console.log(chart.series[genderidx]);
 
             }
         }
@@ -96,10 +105,10 @@
     }
     function generateData() {
 
-        let deltalat = (Math.random() - 0.5)*0.1;
-        let deltalong = (Math.random() - 0.5)*0.1;
+        let deltalat = (Math.random() - 0.5) * 0.1;
+        let deltalong = (Math.random() - 0.5) * 0.1;
         let request = {
-            location: {lat: 40.7831+deltalat, lng: -73.9712+deltalong}, types: ['bar'], radius:5000
+            location: {lat: 40.7831 + deltalat, lng: -73.9712 + deltalong}, types: ['bar'], radius: 5000
         };
 
         service.nearbySearch(request, datareceived)
@@ -154,29 +163,35 @@
     }
 
     var series = [{
-        name: 'John', data: [5, 3, 4, 7, 2]
+        name: 'Men', data: [], color:'#00008B'
     }, {
-        name: 'Jane', data: [2, 2, 3, 2, 1]
-    }, {
-        name: 'Joe', data: [3, 4, 4, 2, 5]
-    }];
+        name: 'Women', data: [], color:'#ff1493'
+    },];
 
     $(function () {
         $('#hc').highcharts({
             chart: {
                 type: 'column'
             }, title: {
-                text: 'Stacked column chart'
+                text: 'Activities'
             }, xAxis: {
-                categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+                categories: ['On a Date', 'Out with Friends', 'Special Occasion', 'Other'],
+                minorGridLineWidth: 0,
+                minorTickLength: 0,
+                tickLength: 0
             }, yAxis: {
                 min: 0, title: {
-                    text: 'Total fruit consumption'
+                    text: 'Total Number of People'
                 }, stackLabels: {
                     enabled: true, style: {
                         fontWeight: 'bold', color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
                     }
-                }
+                },
+                minorGridLineWidth: 0,
+                minorTickLength: 0,
+                tickLength: 0,
+                gridLineColor: 'transparent',
+                gridLineWidth: 0,
             }, legend: {
                 align: 'right',
                 x: -30,
@@ -199,6 +214,9 @@
                             textShadow: '0 0 3px black'
                         }
                     }
+                },
+                series: {
+                    pointWidth: 20
                 }
             }, series: series
         });
@@ -213,9 +231,9 @@
         });
 
         heatmap = new google.maps.visualization.HeatmapLayer({
-            data: getInitialPoints(), radius: 20, map: map
+            data: [], radius: 20, map: map
         });
-        service= new google.maps.places.PlacesService($('#footer').get(0));
+        service = new google.maps.places.PlacesService($('#footer').get(0));
     }
 
     function toggleHeatmap() {
@@ -237,12 +255,6 @@
     function changeOpacity() {
         heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
     }
-
-    // Heatmap data: 500 Points
-    function getInitialPoints() {
-        return [new google.maps.LatLng(37.782551, -122.445368), new google.maps.LatLng(37.751266, -122.403355)];
-    }
-
 
 
 </script>

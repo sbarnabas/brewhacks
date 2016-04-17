@@ -6,8 +6,15 @@
     font-size: 16px;
   }
   scroll-content {
-    background-image: url('../../img/New_york_times_square-terabass.jpg');
+    background-image: url('../../img/01-signup-nofb.png');
     -webkit-background-size:cover;
+    background-size:cover;
+  }
+}
+
+.discover{
+  scroll-content{
+    background-image: url('../../img/load-screen.png');
     background-size:cover;
   }
 }

@@ -1,5 +1,5 @@
 
-<ion-content>
+<ion-content class="discover">
 
 
         <div class="container">
@@ -21,8 +21,8 @@
                         </ion-item>
 
                         <ion-item>
-                            <span item-left>18 min</span>
-                            <span item-left>(2.6 mi)</span>
+
+                            <span item-left>{{item.distance}} mi away</span>
 
                         </ion-item>
                         <ion-item >
@@ -40,20 +40,20 @@
 
                 <ion-slide>
                     <ion-item style="text-align: center">
-                            Question: Can I buy you a drink?
+                            Question: Why are you going out?
                     </ion-item>
 
                     <p style="text-align: center">
-                        <button item-center (click)="itemTapped($event, item)">Answer 1</button>
+                        <button item-center (click)="itemTapped($event, item)">On a Date</button>
                     </p>
                     <p style="text-align: center">
-                        <button item-center (click)="itemTapped($event, item)">Answer 2</button>
+                        <button item-center (click)="itemTapped($event, item)">Out with Friends</button>
                     </p>
                     <p style="text-align: center">
-                        <button item-center (click)="itemTapped($event, item)">Answer 3</button>
+                        <button item-center (click)="itemTapped($event, item)">Special Occasion</button>
                     </p>
                     <p style="text-align: center">
-                        <button item-center (click)="itemTapped($event, item)">Answer 4</button>
+                        <button item-center (click)="itemTapped($event, item)">Other</button>
                     </p>
                     <ion-item style="text-align: center" (click)="cancelQuestionScreen($event, item)">
                         <u>Cancel</u>
