@@ -1,6 +1,6 @@
 import {Page, NavController, Platform} from "ionic-angular";
 import {FbProvider} from "../../providers/fb-provider/fb-provider";
-import {BottomNavPage} from "../../pages/bottom-nav/bottom-nav";
+import {TabsPage} from "../../pages/tabs/tabs";
 
 @Page({
     templateUrl: 'build/pages/hello-ionic/hello-ionic.html'
@@ -8,7 +8,7 @@ import {BottomNavPage} from "../../pages/bottom-nav/bottom-nav";
 export class HelloIonicPage {
 
     goToInterests() {
-        this.nav.push(BottomNavPage);
+        this.nav.push(TabsPage);
 
     }
 
@@ -24,6 +24,7 @@ export class HelloIonicPage {
         this.name = '';
         this.id = '';
         this.nav = nav;
+       
     };
 
     login() {
