@@ -66,7 +66,7 @@
 
 var data = [];
 var activeData = [];
-var genders = ["All", "Male", "Female"];
+var genders = ["Male", "Female"];
 var activities = ["Single", "Date", "Friends", "Family", "Sports", "Work"];
 var params = {
   startDate: new Date(),
@@ -94,21 +94,17 @@ function generateData() {
 
 setInterval(function() {
   generateData();
-}, 5000);
+}, 3000);
 
 function updateParams(key, value) {
   params[key] = value;
-  console.log(params[key]);
   updateData();
 }
 
 function updateData() {
-  console.log('updateData');
   activeData = [];
-  console.log(params);
   for(i = 0; i < data.length; i++) {
-    console.log(data[i]);
-    if(data[i]['gender'] === params['gender'] && data[i]['activity'] === params['activity'] && data[i]['minAge'] >= params['minAge'] && data[i]['maxAge'] <= params['maxAge']) {
+    if((data[i]['gender'] === params['gender'] || params['gender'] === "All") && data[i]['age'] >= params['minAge'] && data[i]['age'] <= params['maxAge']) {
       activeData.push(data[i]);
     }
   }
@@ -126,11 +122,18 @@ function updateMap(newData) {
 }
 
 function reloadMap() {
-  var mapData = activeData.map(function(data) {
-    return data['geocode'];
-  });
+  var mapData = heatmap.data;
+
+  for(i = 0; i < mapData.length; i++) {
+    mapData.pop();
+  }
+
+  for(i = 0; i < activeData.length; i++) {
+    mapData.push(activeData[i]['geocode']);
+  }
 
   console.log(mapData);
+
   heatmap.set("data", mapData);
   heatmap.setMap(map);
 }
