@@ -1,4 +1,3 @@
-# meteor-angular-socially - [Tutorial's site](http://angular-meteor.com/tutorialIntro)
 angular-meteor example and tutorial app.
 
 The tutorial starts at branch 'step_00' till the last step.
