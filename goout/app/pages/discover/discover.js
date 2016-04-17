@@ -16,26 +16,21 @@ export class DiscoverPage {
         this.nav = nav;
         this.http = http;
         this._app = app;
-        this.me= new google.maps.LatLng("40.744182", "-73.993205");
+        this.me = new google.maps.LatLng("40.744182", "-73.993205");
         this.zone = new NgZone({enableLongStackTrace: false});
         // If we navigated to this page, we will have an item available as a nav param
-        function calcDistance(p1,p2) {
+        function calcDistance(p1, p2) {
 
-            return (google.maps.geometry.spherical.computeDistanceBetween(p1,p2) / 628).toFixed(3);
+            return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 628).toFixed(3);
         }
-        var offers =
-        ["Stella Artois $4",
-        "Bud Lite $3",
-        "Corona Lite $4.50",
-        "Corona Extra $4",
-        "Beck's $3",
-        "Leffe $4",
-        "Rolling Rock $3"];
+
+        var offers = ["Stella Artois $4", "Bud Lite $3", "Corona Lite $4.50", "Corona Extra $4", "Beck's $3",
+            "Leffe $4", "Rolling Rock $3"];
 
         this.service = new google.maps.places.PlacesService($('#footer').get(0));
         this.items = [];
         this.getData((results, status) => {
-         //   var me = new google.maps.LatLng("40.744182", "-73.993205");
+            //   var me = new google.maps.LatLng("40.744182", "-73.993205");
             if (status == google.maps.places.PlacesServiceStatus.OK) {
                 this.data = results;
 
@@ -51,21 +46,21 @@ export class DiscoverPage {
                                         lat: d.geometry.location.lat(),
                                         lng: d.geometry.location.lng(),
                                         name: d.name,
-                                        offer: offers[Math.floor(Math.random()*7)],
+                                        offer: offers[Math.floor(Math.random() * 7)],
                                         img: d.photos[0].getUrl({maxWidth: 400}),
                                         rating: d.rating,
                                         address: d.vicinity,
                                         timeleft: Math.floor(Math.random() * 60) + 1,
                                         swiper: null,
-                                        distance: calcDistance(d.geometry.location,this.me),
+                                        distance: calcDistance(d.geometry.location, this.me),
 
-                                })
+                                    })
                                 })
                             }
 
                         }
                         mixpanel.track("Loaded locations");
-                        $('scroll-content').css('background-image', '');
+                        $('.discover scroll-content').css('background-image',"url('')");
                         setTimeout(()=> {
                             for (var idx in this.items) {
                                 this.items[idx].swiper = this._app.getComponent('my-slides-' + this.items[idx].id);
@@ -111,18 +106,16 @@ export class DiscoverPage {
         console.log("item got tapped");
         console.log(item);
         if (item.swiper.slider.activeIndex == 0) {
-            mixpanel.track("Selected Item" ,{data:item});
+
             item.swiper.slider.unlockSwipes();
             item.swiper.slider.slideNext();
             item.swiper.slider.lockSwipes();
         } else if (item.swiper.slider.activeIndex == 1) {
             item.swiper.slider.unlockSwipes();
             item.swiper.slider.slideNext();
-            mixpanel.track("Answered Question",{data:item});
+
         } else if (item.swiper.slider.activeIndex == 2) {
             //go to google maps
-            mixpanel.track("Redeemed Offer", {data:item});
-            console.log("go to maps");
 
         }
 
