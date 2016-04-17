@@ -10,7 +10,7 @@
             <ion-slides class="swiper-container" pager="false" id="my-slides-{{item.id}}">
                 <ion-slide>
                     <div>
-                        <ion-card-header>{{item.name}}</ion-card-header>
+                        <ion-card-header style="color:white;">{{item.name}}</ion-card-header>
                         <ion-item>
                             <ion-icon name="time" item-right></ion-icon> <div item-right>{{item.timeleft}}m left</div>
                             <div item-left>{{item.offer}}</div>
@@ -39,18 +39,36 @@
                 </ion-slide>
 
                 <ion-slide>
+                    <ion-item style="text-align: center">
+                            Question: Can I buy you a drink?
+                    </ion-item>
+
                     <p style="text-align: center">
-                        <button>Google Maps</button>
+                        <button item-center (click)="itemTapped($event, item)">Answer 1</button>
                     </p>
                     <p style="text-align: center">
-                        <button item-center>Uber</button>
+                        <button item-center (click)="itemTapped($event, item)">Answer 2</button>
                     </p>
                     <p style="text-align: center">
-                        <button>Share</button>
+                        <button item-center (click)="itemTapped($event, item)">Answer 3</button>
                     </p>
+                    <p style="text-align: center">
+                        <button item-center (click)="itemTapped($event, item)">Answer 4</button>
+                    </p>
+                    <ion-item style="text-align: center" (click)="cancelQuestionScreen($event, item)">
+                        <u>Cancel</u>
+                    </ion-item>
                 </ion-slide>
                 <ion-slide>
-                    <h2>Slide 3</h2>
+                    <ion-item style="text-align: center">
+                        Passcode for discount:
+                    </ion-item>
+                    <ion-item style="text-align: center">
+                        Hey Arnold!
+                    </ion-item>
+                    <p style="text-align: center">
+                        <button item-center (click)="itemTapped($event, item)">Google Maps Directions</button>
+                    </p>
                 </ion-slide>
             </ion-slides>
 

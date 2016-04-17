@@ -95,12 +95,31 @@ export class DiscoverPage {
     itemTapped(event, item) {
         console.log("item got tapped");
         console.log(item);
-        item.swiper.slider.unlockSwipes();
-        item.swiper.slider.slideNext(false);
+        if(item.swiper.slider.activeIndex == 0) {
+            item.swiper.slider.unlockSwipes();
+            item.swiper.slider.slideNext();
+            item.swiper.slider.lockSwipes();
+        } else if(item.swiper.slider.activeIndex == 1) {
+            item.swiper.slider.unlockSwipes();
+            item.swiper.slider.slideNext();
+        } else if(item.swiper.slider.activeIndex == 2) {
+            //go to google maps
+            console.log("go to maps");
+
+        }
+
         // this.nav.push(ItemDetailsPage, {
         //     event: item
         // });
 
+    }
+
+    cancelQuestionScreen(event, item) {
+        console.log("cancel question screen");
+        console.log(item);
+        item.swiper.slider.unlockSwipes();
+        item.swiper.slider.slidePrev();
+        item.swiper.slider.lockSwipes();
     }
 
     getData(callback) {
