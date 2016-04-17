@@ -24,7 +24,7 @@ export class HelloIonicPage {
         this.name = '';
         this.id = '';
         this.nav = nav;
-       
+        mixpanel.track("App started");
     };
 
     login() {

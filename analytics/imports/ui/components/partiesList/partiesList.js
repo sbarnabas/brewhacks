@@ -1,151 +1,130 @@
-import angular from 'angular';
-import angularMeteor from 'angular-meteor';
-import uiRouter from 'angular-ui-router';
-import utilsPagination from 'angular-utils-pagination';
-
-import { Counts } from 'meteor/tmeasday:publish-counts';
-
-import './partiesList.html';
-import { Parties } from '../../../api/parties';
-import { name as PartiesSort } from '../partiesSort/partiesSort';
-import { name as PartiesMap } from '../partiesMap/partiesMap';
-import { name as PartyAddButton } from '../partyAddButton/partyAddButton';
-import { name as PartyRemove } from '../partyRemove/partyRemove';
-import { name as PartyCreator } from '../partyCreator/partyCreator';
-import { name as PartyRsvp } from '../partyRsvp/partyRsvp';
-import { name as PartyRsvpsList } from '../partyRsvpsList/partyRsvpsList';
-import { name as PartyImage } from '../partyImage/partyImage';
+import angular from "angular";
+import angularMeteor from "angular-meteor";
+import uiRouter from "angular-ui-router";
+import utilsPagination from "angular-utils-pagination";
+import {Counts} from "meteor/tmeasday:publish-counts";
+import "./partiesList.html";
+import {Parties} from "../../../api/parties";
+import {name as PartiesSort} from "../partiesSort/partiesSort";
+import {name as PartiesMap} from "../partiesMap/partiesMap";
+import {name as PartyAddButton} from "../partyAddButton/partyAddButton";
+import {name as PartyRemove} from "../partyRemove/partyRemove";
+import {name as PartyCreator} from "../partyCreator/partyCreator";
+import {name as PartyRsvp} from "../partyRsvp/partyRsvp";
+import {name as PartyRsvpsList} from "../partyRsvpsList/partyRsvpsList";
+import {name as PartyImage} from "../partyImage/partyImage";
 
 class PartiesList {
-  constructor($scope, $reactive) {
-    'ngInject';
+    constructor($scope, $reactive) {
+        'ngInject';
 
-    $reactive(this).attach($scope);
+        $reactive(this).attach($scope);
 
-    this.perPage = 3;
-    this.page = 1;
-    this.sort = {
-      name: 1
-    };
-    this.searchText = '';
+        this.perPage = 3;
+        this.page = 1;
+        this.sort = {
+            name: 1
+        };
+        this.searchText = '';
 
-    this.subscribe('parties', () => [{
-        limit: parseInt(this.perPage),
-        skip: parseInt((this.getReactively('page') - 1) * this.perPage),
-        sort: this.getReactively('sort')
-      }, this.getReactively('searchText')
-    ]);
+        this.subscribe('parties', () => [{
+            limit: parseInt(this.perPage),
+            skip: parseInt((this.getReactively('page') - 1) * this.perPage),
+            sort: this.getReactively('sort')
+        }, this.getReactively('searchText')]);
 
-    this.subscribe('users');
-    this.subscribe('images');
+        this.subscribe('users');
+        this.subscribe('images');
 
-    this.startDate = new Date(new Date().getTime() - 2592000000);
-    this.endDate = new Date();
-    this.gender = "1";
-    this.minAge = 21;
-    this.maxAge = 35;
+        this.startDate = new Date(new Date().getTime() - 2592000000);
+        this.endDate = new Date();
+        this.gender = "1";
+        this.minAge = 21;
+        this.maxAge = 35;
 
-    this.helpers({
-      parties() {
-        return Parties.find({}, {
-          sort : this.getReactively('sort')
+        this.helpers({
+            parties() {
+                return Parties.find({}, {
+                    sort: this.getReactively('sort')
+                });
+            }, partiesCount() {
+                return Counts.get('numberOfParties');
+            }, isLoggedIn() {
+                return !!Meteor.userId();
+            }, currentUserId() {
+                return Meteor.userId();
+            }
         });
-      },
-      partiesCount() {
-        return Counts.get('numberOfParties');
-      },
-      isLoggedIn() {
-        return !!Meteor.userId();
-      },
-      currentUserId() {
-        return Meteor.userId();
-      }
-    });
 
-    this.ages = [];
-    for (var i = 21; i <= 100; i++) {
-      this.ages.push(i);
+        this.ages = [];
+        for (var i = 21; i <= 100; i++) {
+            this.ages.push(i);
+        }
+
+        this.items = ["Date", "Friends", "Occasion", "Other"];
+        this.selected = [];
     }
 
-    this.items = ['Single', 'Date', 'Friends', 'Family', 'Meal', 'Sports', 'Work'];
-    this.selected = [];
-  }
+    toggle(item, list) {
+        var idx = list.indexOf(item);
+        if (idx > -1) {
+            list.splice(idx, 1);
+        } else {
+            list.push(item);
+        }
+    };
 
-  toggle(item, list) {
-    var idx = list.indexOf(item);
-    if (idx > -1) {
-      list.splice(idx, 1);
+    exists(item, list) {
+        return list.indexOf(item) > -1;
+    };
+
+    isIndeterminate() {
+        return (this.selected.length !== 0 && this.selected.length !== this.items.length);
+    };
+
+    isChecked() {
+        return this.selected.length === this.items.length;
+    };
+
+    toggleAll() {
+        if (this.selected.length === this.items.length) {
+            this.selected = [];
+        } else if (this.selected.length === 0 || this.selected.length > 0) {
+            this.selected = this.items.slice(0);
+        }
+    };
+
+    isOwner(party) {
+        return this.isLoggedIn && party.owner === this.currentUserId;
     }
-    else {
-      list.push(item);
+
+    pageChanged(newPage) {
+        this.page = newPage;
     }
-  };
 
-  exists(item, list) {
-    return list.indexOf(item) > -1;
-  };
-
-  isIndeterminate() {
-    return (this.selected.length !== 0 &&
-        this.selected.length !== this.items.length);
-  };
-
-  isChecked() {
-    return this.selected.length === this.items.length;
-  };
-
-  toggleAll() {
-    if (this.selected.length === this.items.length) {
-      this.selected = [];
-    } else if (this.selected.length === 0 || this.selected.length > 0) {
-      this.selected = this.items.slice(0);
+    sortChanged(sort) {
+        this.sort = sort;
     }
-  };
 
-  isOwner(party) {
-    return this.isLoggedIn && party.owner === this.currentUserId;
-  }
+    updateData() {
 
-  pageChanged(newPage) {
-    this.page = newPage;
-  }
-
-  sortChanged(sort) {
-    this.sort = sort;
-  }
-
-  updateData() {
-    
-  }
+    }
 }
 
 const name = 'partiesList';
 
 // create a module
-export default angular.module(name, [
-  angularMeteor,
-  uiRouter,
-  utilsPagination,
-  PartiesSort,
-  PartiesMap,
-  PartyAddButton,
-  PartyRemove,
-  PartyCreator,
-  PartyRsvp,
-  PartyRsvpsList,
-  PartyImage
-]).component(name, {
-  templateUrl: `imports/ui/components/${name}/${name}.html`,
-  controllerAs: name,
-  controller: PartiesList
-})
-  .config(config);
+export default angular.module(name,
+    [angularMeteor, uiRouter, utilsPagination, PartiesSort, PartiesMap, PartyAddButton, PartyRemove, PartyCreator,
+        PartyRsvp, PartyRsvpsList, PartyImage]).component(name, {
+        templateUrl: `imports/ui/components/${name}/${name}.html`, controllerAs: name, controller: PartiesList
+    })
+    .config(config);
 
 function config($stateProvider) {
-  'ngInject';
-  $stateProvider
-    .state('parties', {
-      url: '/parties',
-      template: '<parties-list></parties-list>'
-    });
+    'ngInject';
+    $stateProvider
+        .state('parties', {
+            url: '/parties', template: '<parties-list></parties-list>'
+        });
 }
