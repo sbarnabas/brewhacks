@@ -13,9 +13,24 @@
       <input ng-model="partiesList.endTime" md-min-date="minTime" md-max-date="maxTime" ng-required="true">
 
       <h5>Gender</h5>
-      <md-select ng-model="partiesList.gender">
-        <md-option ng-value="1">Male</md-option>
-        <md-option ng-value="2">Female</md-option>
+      <select onchange="updateParams('gender', this.value);" onfocus="this.selectedIndex = -1;">
+        <option value="All">All</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+
+      <h5>Min Age</h5>
+      <md-select ng-model="partiesList.minAge">
+        <div ng-repeat="item in partiesList.ages">
+          <md-option ng-value="item" ng-click="partiesList.updateData()">{{ item }}</md-option>
+        </div>
+      </md-select>
+
+      <h5>Max Age</h5>
+      <md-select ng-model="partiesList.maxAge">
+        <div ng-repeat="item in partiesList.ages">
+          <md-option ng-value="item" ng-click="partiesList.updateData()">{{ item }}</md-option>
+        </div>
       </md-select>
 
       <h5>Activities</h5>
@@ -29,12 +44,15 @@
 
   <md-content flex-gt-sm="65" flex-sm>
     <div id="floating-panel">
-      <button onclick="updateData()">Update Data</button>
+      <button onclick="updateMap()">Update Data</button>
       <button onclick="changeGradient()">Change gradient</button>
       <button onclick="changeRadius()">Change radius</button>
       <button onclick="toggleHeatmap()">Toggle Heatmap</button>
     </div>
-    <div id="map" style="width:100%; height: 750px;"></div>
+
+    <div id="map" style="width:100%; height: 500px;"></div>
+
+      <div id="hc" style="margin: 0 auto; max-width: 100%; height: 350px;"></div>
   </md-content>
 </md-content>
 
@@ -42,7 +60,147 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOvpVjC-0t4DKNO8Rt6lfIbux0_9X2FjE&libraries=visualization&callback=initMap">
 </script>
 
+<script src="https://code.highcharts.com"></script>
+
 <script>
+
+var data = [];
+var activeData = [];
+var genders = ["All", "Male", "Female"];
+var activities = ["Single", "Date", "Friends", "Family", "Sports", "Work"];
+var params = {
+  startDate: new Date(),
+  endDate: new Date(),
+  gender: "All",
+  minAge: 21,
+  maxAge: 50,
+  activity: "Friends"
+};
+
+function generateData() {
+  var genderRandom = Math.floor(Math.random()*genders.length);
+  var activitiesRandom = Math.floor(Math.random()*activities.length);
+  var geocodeRandom = Math.floor(Math.random()*498)+1;
+  var newData = {};
+  newData['geocode'] = dataPoints()[geocodeRandom];
+  newData['gender'] = genders[genderRandom];
+  newData['age'] = Math.floor(Math.random()*40) + 21;
+  newData['datetime'] = new Date();
+  newData['activity'] = activities[activitiesRandom];
+
+  data.push(newData);
+  updateMap(newData['geocode']);
+}
+
+setInterval(function() {
+  generateData();
+}, 5000);
+
+function updateParams(key, value) {
+  params[key] = value;
+  console.log(params[key]);
+  updateData();
+}
+
+function updateData() {
+  console.log('updateData');
+  activeData = [];
+  console.log(params);
+  for(i = 0; i < data.length; i++) {
+    console.log(data[i]);
+    if(data[i]['gender'] === params['gender'] && data[i]['activity'] === params['activity'] && data[i]['minAge'] >= params['minAge'] && data[i]['maxAge'] <= params['maxAge']) {
+      activeData.push(data[i]);
+    }
+  }
+
+  reloadMap();
+}
+
+function updateMap(newData) {
+  var mapData = heatmap.data;
+
+  mapData.push(newData);
+
+  heatmap.set("data", mapData);
+  heatmap.setMap(map);
+}
+
+function reloadMap() {
+  var mapData = activeData.map(function(data) {
+    return data['geocode'];
+  });
+
+  console.log(mapData);
+  heatmap.set("data", mapData);
+  heatmap.setMap(map);
+}
+
+var series = [{
+            name: 'John',
+            data: [5, 3, 4, 7, 2]
+        }, {
+            name: 'Jane',
+            data: [2, 2, 3, 2, 1]
+        }, {
+            name: 'Joe',
+            data: [3, 4, 4, 2, 5]
+        }];
+
+$(function () {
+    $('#hc').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Stacked column chart'
+        },
+        xAxis: {
+            categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Total fruit consumption'
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
+            }
+        },
+        legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 25,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        tooltip: {
+            headerFormat: '<b>{point.x}</b><br/>',
+            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                    style: {
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }
+        },
+        series: series
+    });
+});
+
 var map, heatmap;
 
 function initMap() {
@@ -81,16 +239,6 @@ function changeGradient() {
     'rgba(255, 0, 0, 1)'
   ]
   heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
-}
-
-function updateData() {
-  var mapData = heatmap.data,
-      randomNumber = Math.floor(Math.random()*498)+1,
-      newData = dataPoints()[randomNumber];
-
-  mapData.push(newData);
-  heatmap.set("data", mapData);
-  heatmap.setMap(map);
 }
 
 function changeRadius() {

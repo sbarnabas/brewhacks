@@ -42,6 +42,8 @@ class PartiesList {
     this.startDate = new Date(new Date().getTime() - 2592000000);
     this.endDate = new Date();
     this.gender = "1";
+    this.minAge = 21;
+    this.maxAge = 35;
 
     this.helpers({
       parties() {
@@ -59,6 +61,11 @@ class PartiesList {
         return Meteor.userId();
       }
     });
+
+    this.ages = [];
+    for (var i = 21; i <= 100; i++) {
+      this.ages.push(i);
+    }
 
     this.items = ['Single', 'Date', 'Friends', 'Family', 'Meal', 'Sports', 'Work'];
     this.selected = [];
@@ -105,6 +112,10 @@ class PartiesList {
 
   sortChanged(sort) {
     this.sort = sort;
+  }
+
+  updateData() {
+    
   }
 }
 
