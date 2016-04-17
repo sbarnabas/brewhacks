@@ -28,15 +28,12 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "cordova-plugin-geolocation"
   ],
   "cordovaPlatforms": [
     "ios",
-    {
-      "platform": "ios",
-      "version": "",
-      "locator": "ios"
-    }
+    "android"
   ],
   "name": "GoOut",
   "description": "GoOut: An Ionic project"
