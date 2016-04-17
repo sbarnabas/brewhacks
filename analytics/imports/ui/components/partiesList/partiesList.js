@@ -39,6 +39,10 @@ class PartiesList {
     this.subscribe('users');
     this.subscribe('images');
 
+    this.startDate = new Date(new Date().getTime() - 2592000000);
+    this.endDate = new Date();
+    this.gender = "1";
+
     this.helpers({
       parties() {
         return Parties.find({}, {
@@ -55,7 +59,41 @@ class PartiesList {
         return Meteor.userId();
       }
     });
+
+    this.items = ['Single', 'Date', 'Friends', 'Family', 'Meal', 'Sports', 'Work'];
+    this.selected = [];
   }
+
+  toggle(item, list) {
+    var idx = list.indexOf(item);
+    if (idx > -1) {
+      list.splice(idx, 1);
+    }
+    else {
+      list.push(item);
+    }
+  };
+
+  exists(item, list) {
+    return list.indexOf(item) > -1;
+  };
+
+  isIndeterminate() {
+    return (this.selected.length !== 0 &&
+        this.selected.length !== this.items.length);
+  };
+
+  isChecked() {
+    return this.selected.length === this.items.length;
+  };
+
+  toggleAll() {
+    if (this.selected.length === this.items.length) {
+      this.selected = [];
+    } else if (this.selected.length === 0 || this.selected.length > 0) {
+      this.selected = this.items.slice(0);
+    }
+  };
 
   isOwner(party) {
     return this.isLoggedIn && party.owner === this.currentUserId;

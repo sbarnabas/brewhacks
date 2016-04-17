@@ -23,6 +23,11 @@ class PartyMap {
       }
     };
 
+    this.heatmap = new google.maps.visualization.HeatmapLayer({
+      data: getPoints(),
+      map: map
+    });
+
     this.marker = {
       options: {
         draggable: true

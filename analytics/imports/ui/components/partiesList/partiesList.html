@@ -1,57 +1,113 @@
-<div layout="column" layout-padding>
-  <party-add-button ng-show="partiesList.isLoggedIn"></party-add-button>
+<md-content flex-gt-sm layout-gt-sm="row" class="ma-trends-list">
+  <md-sidenav class="md-sidenav-left" md-component-id="left" flex-gt-sm="35" flex-sm md-is-locked-open="$mdMedia('gt-md')">
+    <md-content flex-gt-sm="65" flex-sm>
 
-  <div flex>
-    <h2 class="md-display-1">List of the parties:</h2>
-  </div>
+      <h5>Start Date</h5>
+      <md-datepicker ng-model="partiesList.startDate" md-min-date="minDate" md-max-date="maxDate" ng-required="true"></md-datepicker>
+      <h5>Start Time</h5>
+      <input ng-model="partiesList.startTime" md-min-date="minTime" md-max-date="maxTime" ng-required="true">
 
-  <div flex layout="row" layout-padding>
-    <md-input-container>
-      <label>Search</label>
-      <input ng-model="partiesList.searchText">
-    </md-input-container>
+      <h5>End Date</h5>
+      <md-datepicker ng-model="partiesList.endDate" md-min-date="minDate" md-max-date="maxDate" ng-required="true"></md-datepicker>
+      <h5>End Time</h5>
+      <input ng-model="partiesList.endTime" md-min-date="minTime" md-max-date="maxTime" ng-required="true">
 
-    <parties-sort on-change="partiesList.sortChanged(sort)" property="name" order="1"></parties-sort>
-  </div>
+      <h5>Gender</h5>
+      <md-select ng-model="partiesList.gender">
+        <md-option ng-value="1">Male</md-option>
+        <md-option ng-value="2">Female</md-option>
+      </md-select>
 
-  <div layout="column" layout-gt-sm="row">
-    <div flex="50">
-      <md-card dir-paginate="party in partiesList.parties | itemsPerPage: partiesList.perPage" total-items="partiesList.partiesCount">
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline" ui-sref="partyDetails({ partyId: party._id })">
-              {{party.name}}
-              <party-remove party="party"></party-remove>
-            </span>
-            <span class="md-subhead">{{party.description}}</span>
-          </md-card-title-text>
-          <md-card-title-media ng-if="party.images">
-            <div class="md-media-lg card-media">
-              <party-image images="party.images"></party-image>
-            </div>
-          </md-card-title-media>
-        </md-card-title>
-        <md-card-content>
-          <party-rsvps-list rsvps="party.rsvps"></party-rsvps-list>
+      <h5>Activities</h5>
+      <div ng-repeat="item in partiesList.items">
+        <md-checkbox ng-checked="partiesList.exists(item, partiesList.selected)" ng-click="partiesList.toggle(item, partiesList.selected)">
+          {{ item }}
+        </md-checkbox>
+      </div>
+    </md-content>
+  </md-sidenav>
 
-          <party-unanswered party="party" ng-if="!party.public"></party-unanswered>
-          <div ng-if="party.public">
-            Everyone is invited
-          </div>
-
-          <party-creator party="party"></party-creator>
-        </md-card-content>
-        <md-card-actions>
-          <party-rsvp party="party" ng-show="partiesList.isLoggedIn"></party-rsvp>
-          <div ng-hide="partiesList.isLoggedIn">
-            <i>Sign in to RSVP for this party.</i>
-          </div>
-        </md-card-actions>
-      </md-card>
-      <dir-pagination-controls on-page-change="partiesList.pageChanged(newPageNumber)"></dir-pagination-controls>
+  <md-content flex-gt-sm="65" flex-sm>
+    <div id="floating-panel">
+      <button onclick="updateData()">Update Data</button>
+      <button onclick="changeGradient()">Change gradient</button>
+      <button onclick="changeRadius()">Change radius</button>
+      <button onclick="toggleHeatmap()">Toggle Heatmap</button>
     </div>
-    <div flex="50">
-      <parties-map parties="partiesList.parties"></parties-map>
-    </div>
-  </div>
-</div>
+    <div id="map" style="width:100%; height: 750px;"></div>
+  </md-content>
+</md-content>
+
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOvpVjC-0t4DKNO8Rt6lfIbux0_9X2FjE&libraries=visualization&callback=initMap">
+</script>
+
+<script>
+var map, heatmap;
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 13,
+    center: {lat: 37.775, lng: -122.434}
+    // mapTypeId: google.maps.MapTypeId.SATELLITE
+  });
+
+  heatmap = new google.maps.visualization.HeatmapLayer({
+    data: getPoints(),
+    radius: 20,
+    map: map
+  });
+}
+
+function toggleHeatmap() {
+  heatmap.setMap(heatmap.getMap() ? null : map);
+}
+
+function changeGradient() {
+  var gradient = [
+    'rgba(0, 255, 255, 0)',
+    'rgba(0, 255, 255, 1)',
+    'rgba(0, 191, 255, 1)',
+    'rgba(0, 127, 255, 1)',
+    'rgba(0, 63, 255, 1)',
+    'rgba(0, 0, 255, 1)',
+    'rgba(0, 0, 223, 1)',
+    'rgba(0, 0, 191, 1)',
+    'rgba(0, 0, 159, 1)',
+    'rgba(0, 0, 127, 1)',
+    'rgba(63, 0, 91, 1)',
+    'rgba(127, 0, 63, 1)',
+    'rgba(191, 0, 31, 1)',
+    'rgba(255, 0, 0, 1)'
+  ]
+  heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+}
+
+function updateData() {
+  var newData = heatmap.data;
+  newData.push(new google.maps.LatLng(37.757039, -122.404346));
+  heatmap.set("data", newData);
+  heatmap.setMap(map);
+}
+
+function getNewPoints() {
+  return getPoints().push(new google.maps.LatLng(37.757039, -122.404346));
+}
+
+function changeRadius() {
+  heatmap.set('radius', heatmap.get('radius') ? null : 20);
+}
+
+function changeOpacity() {
+  heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+}
+
+// Heatmap data: 500 Points
+function getPoints() {
+  return [
+    new google.maps.LatLng(37.782551, -122.445368),
+    new google.maps.LatLng(37.751266, -122.403355)
+  ];
+}
+
+</script>
