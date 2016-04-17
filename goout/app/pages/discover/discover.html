@@ -1,30 +1,36 @@
 
 <ion-content>
-    <ion-list>
+
 
         <div class="container">
         <ion-card *ngFor="#item of items" class="buddy">
 
             <img src="{{item.img}}">
-
+            <div>
             <ion-card-header>{{item.name}}</ion-card-header>
+                <ion-item>
+                    <ion-icon name="time" item-right></ion-icon> <div item-right>{{item.timeleft}}m left</div>
+                    <div item-left>{{item.offer}}</div>
+                </ion-item>
 
-            <ion-item>
-                <ion-icon name="pin" item-left large></ion-icon>  {{item.address}}
+                <ion-item>
+                <ion-icon name="pin" item-left></ion-icon>  <div item-left>{{item.address}} </div> <div item-right>{{item.rating}}/5</div>
             </ion-item>
 
             <ion-item>
                 <span item-left>18 min</span>
                 <span item-left>(2.6 mi)</span>
-                <button primary clear item-right>
-                    <ion-icon name="navigate"></ion-icon>
-                    Go
-                </button>
+
             </ion-item>
+            <ion-item>
+                <div class="center"> <button primary large >
+                    Go
+                </button></div>
 
-
+            </ion-item>
+            </div>
         </ion-card>
         </div>
 
-    </ion-list>
+
 </ion-content>

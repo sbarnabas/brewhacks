@@ -1,9 +1,7 @@
 // http://ionicframework.com/docs/v2/theming/
-
 // Ionic Shared Functions
 // --------------------------------------------------
 // Makes Ionic Sass functions available to your App
-
 @import 'globals.core';
 
 // App Shared Variables
@@ -15,7 +13,6 @@
 // in the app.core.scss file and not this file. Sass variables specific
 // to the mode belong in either the app.ios.scss or app.md.scss files.
 
-
 // App Shared Color Variables
 // --------------------------------------------------
 // It's highly recommended to change the default colors
@@ -26,59 +23,79 @@
 // are different per mode.
 
 $colors: (
-  primary:    #f61717,
-  secondary:  #32db64,
-  danger:     #f53d3d,
-  light:      #f4f4f4,
-  dark:       #222,
-  favorite:   #69BB7B
+        primary: #f61717,
+        secondary: #32db64,
+        danger: #f53d3d,
+        light: #f4f4f4,
+        dark: #222,
+        favorite: #69BB7B
 );
 $toolbar-ios-background: #f61717;
 $toolbar-ios-active-color: #ffffff;
 $toolbar-ios-inactive-color: #f4f4f4;
 
-.ion-ios-artswave {
-  background-repeat: no-repeat;
-  background-position: 50%;
-  height: 100%;
-  background-image: url('../../img/artsPassTabIcon_active.png');
-  background-size:contain;
+$text-color: #fff !default;
+$background-color: #363030 !default;
+$card-ios-box-shadow-color: rgba(36, 30, 30, 1);
+
+.center {
+  margin-left: auto; !important;
+  margin-right: auto; !important;
+  display: block; !important;
 }
-.ion-ios-artswave-outline {
+
+.ion-ios-list2 {
   background-repeat: no-repeat;
   background-position: 50%;
   height: 100%;
-  background-image: url('../../img/artsPassTabIcon_inactive.png');
-  background-size:contain;
+  background-image: url('../../img/icon-list.svg');
+  background-size: contain;
+}
+
+.ion-ios-list2-outline {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 100%;
+  background-image: url('../../img/icon-list.svg');
+  background-size: contain;
 }
 
 .ion-ios-discover {
   background-repeat: no-repeat;
   background-position: 50%;
   height: 100%;
-  background-image: url('../../img/discoverTabIcon_active.png');
-  background-size:contain;
+  background-image: url('../../img/icon-discover.svg');
+  background-size: contain;
 }
+
 .ion-ios-discover-outline {
   background-repeat: no-repeat;
   background-position: 50%;
   height: 100%;
-  background-image: url('../../img/discoverTabIcon_inactive.png');
-  background-size:contain;
+  background-image: url('../../img/icon-discover.svg');
+  background-size: contain;
 }
 
 .ion-ios-profile {
   background-repeat: no-repeat;
   background-position: 50%;
   height: 100%;
-  background-image: url('../../img/profileTabIcon_active.png');
-  background-size:contain;
+  background-image: url('../../img/icon-profile.svg');
+  background-size: contain;
 }
+
 .ion-ios-profile-outline {
   background-repeat: no-repeat;
   background-position: 50%;
   height: 100%;
-  background-image: url('../../img/profileTabIcon_inactive.png');
-  background-size:contain;
+  background-image: url('../../img/icon-profile.svg');
+  background-size: contain;
 }
 
+a[aria-selected="true"] {
+  border-bottom: 5px solid #fd5e5e;
+}
+
+a[aria-selected="false"] {
+  border-bottom: 5px solid #f61717;
+}

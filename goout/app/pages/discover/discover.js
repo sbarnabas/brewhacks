@@ -30,7 +30,7 @@ export class DiscoverPage {
                     try {
                         for (var idx in this.data) {
                             var d = this.data[idx]
-                            if(d.photos) {
+                            if (d.photos) {
                                 this.zone.run(() => {
                                     this.items.push({
                                         id: d.place_id,
@@ -38,10 +38,11 @@ export class DiscoverPage {
                                         lat: d.geometry.location.lat(),
                                         lng: d.geometry.location.lng(),
                                         name: d.name,
-                                        offer: 'text #4',
+                                        offer: '$3 Rolling Rock',
                                         img: d.photos[0].getUrl({maxWidth: 400}),
                                         rating: d.rating,
                                         address: d.vicinity,
+                                        timeleft: Math.floor(Math.random()*60)+1
                                     })
                                 })
                             }
@@ -53,9 +54,6 @@ export class DiscoverPage {
                     }
                 }
 
-                this.zone.run(() => {
-                    this.nav.tabBadge = this.items.length;
-                })
             }
         });
 
@@ -94,7 +92,7 @@ export class DiscoverPage {
         navigator.geolocation.getCurrentPosition((position) => {
                 let me = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 let request = {
-                    location: me, radius: '500', types: ['bar']
+                    location: me, types: ['bar'], rankBy: google.maps.places.RankBy.DISTANCE
                 };
                 this.service.nearbySearch(request, callback)
 

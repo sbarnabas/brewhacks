@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="34px" height="34px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.7 (28169) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="16" cy="16" r="16"></circle>
+        <mask id="mask-3" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-1" y="-1" width="34" height="34">
+            <rect x="-1" y="-1" width="34" height="34" fill="white"></rect>
+            <use xlink:href="#path-1" fill="black"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="discover-copy-2" transform="translate(-634.000000, -49.000000)">
+            <g id="Group-4" transform="translate(99.000000, 50.000000)">
+                <g id="Group-3" transform="translate(536.000000, 0.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Mask">
+                        <use fill="#F61717" fill-rule="evenodd" xlink:href="#path-1"></use>
+                        <use stroke="#FFFFFF" mask="url(#mask-3)" stroke-width="2" xlink:href="#path-1"></use>
+                    </g>
+                    <g mask="url(#mask-2)" stroke="#FFFFFF" fill="#F61717">
+                        <g transform="translate(2.713415, 5.695122)">
+                            <ellipse id="Oval-4" cx="13.2865854" cy="6.24390244" rx="6.24390244" ry="6.24390244"></ellipse>
+                            <path d="M13.2865854,39 C20.6077259,39 26.5426829,33.065043 26.5426829,25.7439024 C26.5426829,18.4227619 20.6077259,12.4878049 13.2865854,12.4878049 C5.96544484,12.4878049 0.0304878049,18.4227619 0.0304878049,25.7439024 C0.0304878049,33.065043 5.96544484,39 13.2865854,39 Z" id="Oval-4-Copy"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
