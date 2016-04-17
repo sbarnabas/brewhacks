@@ -2,6 +2,7 @@ import {Page, NavController, NavParams} from "ionic-angular";
 import {ItemDetailsPage} from "../item-details/item-details";
 import {Http} from "angular2/http";
 import "rxjs/add/operator/map";
+import {NgZone} from "angular2/core";
 
 @Page({
     templateUrl: 'build/pages/discover/discover.html'
@@ -15,7 +16,7 @@ export class DiscoverPage {
     constructor(nav, navParams, http) {
         this.nav = nav;
         this.http = http;
-
+        this.zone = new NgZone({enableLongStackTrace: false});
         // If we navigated to this page, we will have an item available as a nav param
 
         this.service = new google.maps.places.PlacesService($('#footer').get(0));
@@ -29,16 +30,21 @@ export class DiscoverPage {
                     try {
                         for (var idx in this.data) {
                             var d = this.data[idx]
-                            this.items.push({
-                                id: d.place_id,
-                                lat: '',
-                                lng: '',
-                                name: d.name,
-                                offer: 'text #4',
-                                img: '',
-                                rating: '',
-                                raw: d,
-                            })
+                            if(d.photos) {
+                                this.zone.run(() => {
+                                    this.items.push({
+                                        id: d.place_id,
+                                        icon: d.icon,
+                                        lat: d.geometry.location.lat(),
+                                        lng: d.geometry.location.lng(),
+                                        name: d.name,
+                                        offer: 'text #4',
+                                        img: d.photos[0].getUrl({maxWidth: 400}),
+                                        rating: d.rating,
+                                        address: d.vicinity,
+                                    })
+                                })
+                            }
 
                         }
 
@@ -47,7 +53,9 @@ export class DiscoverPage {
                     }
                 }
 
-                this.nav.tabBadge = this.items.length;
+                this.zone.run(() => {
+                    this.nav.tabBadge = this.items.length;
+                })
             }
         });
 

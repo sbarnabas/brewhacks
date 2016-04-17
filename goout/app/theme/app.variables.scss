@@ -26,14 +26,16 @@
 // are different per mode.
 
 $colors: (
-  primary:    #394660,
+  primary:    #f61717,
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
   favorite:   #69BB7B
 );
-
+$toolbar-ios-background: #f61717;
+$toolbar-ios-active-color: #ffffff;
+$toolbar-ios-inactive-color: #f4f4f4;
 
 .ion-ios-artswave {
   background-repeat: no-repeat;

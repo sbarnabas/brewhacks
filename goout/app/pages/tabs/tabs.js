@@ -12,14 +12,16 @@ export class TabsPage {
         this.tab1 = DiscoverPage;
         this.tab2 = AllEventsPage;
         this.tab3=EventMapPage;
-        this.tabBarElement = document.querySelector('ion-navbar-section');
+
 
     }
 
-    onPageDidEnter()
+    onPageWillEnter()
     {
 
+        this.tabBarElement = document.querySelector('ion-navbar-section');
         this.tabBarElement.style.display = 'none';
+
 
     }
 
