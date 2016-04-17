@@ -1,72 +1,72 @@
-import {Page,Storage,LocalStorage, NavController, NavParams} from "ionic-angular";
+import {Page, NavController, NavParams} from "ionic-angular";
 import {ItemDetailsPage} from "../item-details/item-details";
+import {Http} from "angular2/http";
+import "rxjs/add/operator/map";
 
 @Page({
     templateUrl: 'build/pages/discover/discover.html'
 })
 
-
 export class DiscoverPage {
     static get parameters() {
-        return [[NavController], [NavParams]];
+        return [[NavController], [NavParams], [Http]];
     }
 
-    constructor(nav, navParams) {
+    constructor(nav, navParams, http) {
         this.nav = nav;
+        this.http = http;
 
         // If we navigated to this page, we will have an item available as a nav param
-        this.selectedItem = navParams.get('item');
+
+        this.service = new google.maps.places.PlacesService($('#footer').get(0));
         this.items = [];
-        this.getData();
-        this.local=new Storage(LocalStorage);
-        this.favs = [];
-        this.local.set('favs',this.favs);
-        if (this.data.events && this.data.events.event) {
-            try {
-                for (var idx in this.data.events.event) {
-                    var d = this.data.events.event[idx]
-                    this.items.push({
-                        lat: '',
-                        lng: '',
-                        name:'Bar',
-                        offer:'text #4',
+        this.getData((results, status) => {
 
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+                this.data = results;
+                console.log(this.data);
+                if (this.data) {
+                    try {
+                        for (var idx in this.data) {
+                            var d = this.data[idx]
+                            this.items.push({
+                                id: d.place_id,
+                                lat: '',
+                                lng: '',
+                                name: d.name,
+                                offer: 'text #4',
+                                img: '',
+                                rating: '',
+                                raw: d,
+                            })
 
-                    });
-                 
+                        }
+
+                    } catch (ex) {
+                        console.log(ex);
+                    }
                 }
 
-            } catch (ex) {
-                console.log(ex);
+                this.nav.tabBadge = this.items.length;
             }
-        }
-
-        this.items.push({
-            lat: '',
-            lng: '',
-            name:'Bar',
-            offer:'text #4',
-
-
         });
-        this.nav.tabBadge=this.items.length;
-
 
     }
-    itemRemove(event, item,discard) {
+
+    itemRemove(event, item, discard) {
         var idx = this.items.indexOf(item);
         if (idx > -1) {
             this.items.splice(idx, 1);
-            this.nav.tabBadge=this.items.length;
+            this.nav.tabBadge = this.items.length;
         }
         if (this.items.length == 0) {
-            this.nav.tabBadge=0;
-            this.nav.tabBadgeStyle="";
+            this.nav.tabBadge = 0;
+            this.nav.tabBadgeStyle = "";
         }
-        if(!discard){
-            console.log("Saved",item.id);
+        if (!discard) {
+            console.log("Saved", item.id);
             this.favs.push(item.id);
-            this.local.set('favs',JSON.stringify(this.favs));
+            this.local.set('favs', JSON.stringify(this.favs));
 
         }
     }
@@ -78,9 +78,23 @@ export class DiscoverPage {
 
     }
 
-    getData() {
-        this.data = {
+    getData(callback) {
+        let gkey = "AIzaSyBkPGJjjzrnXatExlJUxyEbg0pPqQWLwrI";
+        let placeSearchUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
+        let options = {timeout: 10000, enableHighAccuracy: true};
 
-        };
+        navigator.geolocation.getCurrentPosition((position) => {
+                let me = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                let request = {
+                    location: me, radius: '500', types: ['bar']
+                };
+                this.service.nearbySearch(request, callback)
+
+            },
+
+            (error) => {
+                console.log(error);
+            }, options);
+
     }
 }
